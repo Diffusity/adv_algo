@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+build/
+dist/
+
+# Reproducible artifacts
+results/traces/*.json
+web/demo_data.json
+
+# Local test and build artifacts
+.playwright-cli/
+report/pdf_pages/
+report/*.aux
+report/*.log
+report/*.out
+report/*.xdv
+report/balance_test*
+report/font_test*
+web/demo-*.png
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
