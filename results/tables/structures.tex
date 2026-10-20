@@ -1,0 +1,19 @@
+\begin{table}[t]
+\centering
+\caption{Data structures used by MXA*-ID and why.}
+\label{tab:structures}
+\footnotesize
+\begin{tabular}{p{1.45cm}p{1.6cm}p{3.4cm}}
+\toprule
+Component & Structure & Role and complexity \\
+\midrule
+Graph & adjacency list & $O(1)$ neighbour iteration; $O(V+E)$ memory. \\
+OPEN & indexed binary heap & one entry/node; $O(\log V)$ push, update-key, pop; deterministic keys. \\
+Search state & dense arrays & $O(1)$ $g$, parent, closed and status lookups; cache-friendly. \\
+$h_D$ oracle & distance + successor arrays & $O(1)$ heuristic query; successor tree enables subtree repair. \\
+Obstacle memory & byte array + set & $O(1)$ status; grows monotonically across queries. \\
+Repair frontier & set + binary heap & $O((|A|+E_A)\log|A|)$ per discovered obstacle. \\
+Risk cache & hash map, versioned & avoids repeated path walks; invalidated on distance changes. \\
+\bottomrule
+\end{tabular}
+\end{table}

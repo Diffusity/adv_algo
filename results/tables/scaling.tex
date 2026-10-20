@@ -1,0 +1,18 @@
+\begin{table*}[t]
+\centering
+\caption{Scaling on random octile grids at density 0.2 (mean of 5 seeds; runtime in ms, peak memory in KB).}
+\label{tab:scaling}
+\small
+\begin{tabular}{lrrrrrrrr}
+\toprule
+& \multicolumn{3}{c}{Explorations} & \multicolumn{3}{c}{Runtime (ms)} & \multicolumn{2}{c}{Peak memory (KB)} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-9}
+Algorithm & $32^2$ & $64^2$ & $128^2$ & $32^2$ & $64^2$ & $128^2$ & $64^2$ & $128^2$ \\
+\midrule
+Dijkstra & 498.8 & 2609.2 & 8658.0 & 7.2 & 40.1 & 126.4 & 226.6 & 875.4 \\
+A* & 51.6 & 177.8 & 363.0 & 2.1 & 5.6 & 19.9 & 302.6 & 1200.7 \\
+MXA* & 35.6 & 122.2 & 310.2 & 39.4 & 524.1 & 5590.6 & 490.6 & 1964.6 \\
+MXA*-ID & 35.6 & 122.2 & 313.4 & 11.7 & 92.6 & 591.7 & 452.6 & 1630.3 \\
+\bottomrule
+\end{tabular}
+\end{table*}

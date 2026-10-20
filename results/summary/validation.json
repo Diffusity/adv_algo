@@ -1,0 +1,17 @@
+{
+  "n_runs": 956,
+  "n_experiments": 6,
+  "max_relative_cost_gap": 5.006505797183202e-16,
+  "n_found": 956,
+  "n_disconnected": 0,
+  "n_mismatches": 0,
+  "total_explorations": 803994,
+  "experiments": [
+    "ablation",
+    "density",
+    "large",
+    "memory",
+    "multi",
+    "size"
+  ]
+}

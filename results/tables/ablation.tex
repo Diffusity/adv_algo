@@ -1,0 +1,18 @@
+\begin{table}[t]
+\centering
+\caption{Ablation on $64\times64$ random grids (mean of 5 seeds; runtime in ms).}
+\label{tab:ablation}
+\small
+\begin{tabular}{lrrrrrr}
+\toprule
+& \multicolumn{2}{c}{$d=0.2$} & \multicolumn{2}{c}{$d=0.3$} & Builds & Mem. \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+Algorithm & Expl. & ms & Expl. & ms & $d=0.2$ & KB \\
+\midrule
+A* & 177.8 & 6.1 & 144.8 & 7.1 & 0.0 & 302.6 \\
+MXA* & 122.2 & 599.9 & 107.6 & 806.5 & 24.0 & 490.6 \\
+MXA*-inc & 122.2 & 93.6 & 107.0 & 86.1 & 1.0 & -- \\
+MXA*-ID & 122.2 & 100.8 & 107.0 & 99.1 & 1.0 & 452.6 \\
+\bottomrule
+\end{tabular}
+\end{table}
