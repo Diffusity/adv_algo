@@ -1,0 +1,17 @@
+\begin{table}[t]
+\centering
+\caption{Ablation on $64^2$ random grids at $d=0.2$ (5 seeds; ms). $d=0.3$ is in the text.}
+\label{tab:ablation}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{lrrrr}
+\toprule
+Algorithm & Expl. & ms & Builds & Mem. (KB) \\
+\midrule
+A$^*$ & 177.8 & 6.1 & 0.0 & 302.6 \\
+MXA$^*$ & 122.2 & 599.9 & 24.0 & 490.6 \\
+MXA$^*$-inc & 122.2 & 93.6 & 1.0 & -- \\
+MXA$^*$-ID & 122.2 & 100.8 & 1.0 & 452.6 \\
+\bottomrule
+\end{tabular}
+\end{table}
