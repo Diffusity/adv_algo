@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MXA*-ID · Dynamic Shortest-Path Search with Unknown Obstacles</title>
+  <meta name="description" content="Interactive trace playback for MXA*-ID, an optimality-preserving dynamic shortest-path search under unknown obstacles.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b7a4b'/%3E%3Cpath d='M7 24V8h4v12h10v4z' fill='white'/%3E%3Ccircle cx='24' cy='9' r='3' fill='%23ffc107'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap hero-inner">
+      <div>
+        <p class="eyebrow">Advanced Algorithms · Group 6 · 2026</p>
+        <h1>Dynamic Shortest-Path Search<br><span>with Unknown Obstacles</span></h1>
+        <p class="lede">
+          Watch Dijkstra, A*, MXA* and the proposed <strong>MXA*-ID</strong> explore the
+          same grid. The agent only learns a cell’s status when it explores that cell;
+          grey means <em>unknown</em>.
+        </p>
+        <p class="authors">
+          Astha Patel · Hirali Desai · Shantanu Singh Sandu · Jyoti Mauriya ·
+          Nevil Nandasana · Parth Maharaja
+        </p>
+      </div>
+      <div class="hero-card" aria-hidden="true">
+        <div class="hero-stat"><span id="hero-alg">4</span><small>algorithms</small></div>
+        <div class="hero-stat"><span>0</span><small>cost gap</small></div>
+        <div class="hero-stat"><span>1</span><small>optimal path</small></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="controls" aria-label="Playback controls">
+      <div class="control-group scenario-group">
+        <label for="scenario">Map</label>
+        <select id="scenario" aria-label="Select a map"></select>
+        <p id="scenario-subtitle" class="control-hint"></p>
+      </div>
+
+      <div class="control-group buttons" role="group" aria-label="Animation controls">
+        <button id="play" class="primary" type="button">Play</button>
+        <button id="step-back" type="button" title="Step back">&minus;1</button>
+        <button id="step-forward" type="button" title="Step forward">+1</button>
+        <button id="reset" type="button">Reset</button>
+      </div>
+
+      <div class="control-group speed-group">
+        <label for="speed">Speed <span id="speed-value">2&times;</span></label>
+        <input id="speed" type="range" min="1" max="12" value="2" step="1">
+      </div>
+
+      <div class="control-group checkbox-group">
+        <label class="check">
+          <input id="truth" type="checkbox">
+          <span>Reveal all obstacles</span>
+        </label>
+        <p class="control-hint">Ground truth, for comparison only</p>
+      </div>
+
+      <div class="progress" aria-live="polite">
+        <span id="progress">0 / 0</span>
+        <small>explorations</small>
+      </div>
+    </section>
+
+    <section class="legend" aria-label="Colour legend">
+      <span><i class="swatch unknown"></i>Unknown</span>
+      <span><i class="swatch explored"></i>Explored free</span>
+      <span><i class="swatch blocked"></i>Discovered obstacle</span>
+      <span><i class="swatch frontier"></i>Frontier</span>
+      <span><i class="swatch current"></i>Current</span>
+      <span><i class="swatch path"></i>Final path</span>
+      <span><i class="swatch start"></i>Start</span>
+      <span><i class="swatch goal"></i>Goal</span>
+    </section>
+
+    <section id="panels" class="panels" aria-label="Algorithm trace panels"></section>
+
+    <section class="comparison">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Final numbers for this map</p>
+          <h2>Same optimal path, different exploration cost</h2>
+        </div>
+        <p class="section-note">
+          Every algorithm returns a path of the same optimal cost. The difference is
+          how many cells it had to reveal. MXA* and MXA*-ID reveal the same cells in a
+          single query; MXA*-ID is faster because it repairs the distance oracle
+          incrementally instead of rebuilding it.
+        </p>
+      </div>
+      <div class="table-wrap">
+        <table id="metrics-table">
+          <thead>
+            <tr>
+              <th scope="col">Algorithm</th>
+              <th scope="col">Explorations</th>
+              <th scope="col">Expansions</th>
+              <th scope="col">Path cost</th>
+              <th scope="col">Runtime (ms)</th>
+              <th scope="col">Explorations vs A*</th>
+            </tr>
+          </thead>
+          <tbody id="metrics-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="notes">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Reading the trace</p>
+          <h2>What the colours mean</h2>
+        </div>
+      </div>
+      <div class="note-grid">
+        <article class="note">
+          <h3>Unknown is not free</h3>
+          <p>
+            A grey cell has never been selected by the search. The algorithm may
+            assume it is passable while planning, but it only learns the truth when
+            it <em>explores</em> the cell. Discovering a wall can invalidate a
+            planned route.
+          </p>
+        </article>
+        <article class="note">
+          <h3>Dynamic heuristic</h3>
+          <p>
+            MXA* maintains the exact distance <code>h<sub>D</sub>(v)</code> to the
+            goal in the currently known graph. As obstacles are revealed, the
+            proposed incremental oracle repairs only the affected part of the
+            shortest-path tree instead of rebuilding it from scratch.
+          </p>
+        </article>
+        <article class="note">
+          <h3>Memory across queries</h3>
+          <p>
+            The multi-query experiment reuses discovered obstacles. In the report,
+            this cuts cumulative explorations by 20–55% over ten queries. The demo
+            shows one query at a time so the trace stays readable.
+          </p>
+        </article>
+        <article class="note">
+          <h3>No hidden suboptimality</h3>
+          <p>
+            The heuristic is admissible and consistent. Every run in the benchmark
+            matrix is checked against an omniscient Dijkstra reference; the largest
+            relative cost gap was <code>5&times;10<sup>-16</sup></code>, i.e. floating-point
+            noise.
+          </p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <p>
+        <strong>MXA*-ID</strong> · Incremental dynamic A* with persistent obstacle
+        memory. Traces exported from the Python reference implementation; the demo
+        replays exact exploration events and does not reimplement the algorithms.
+      </p>
+      <p class="muted">Open <code>web/index.html</code> directly, or serve this folder with any static server.</p>
+    </div>
+  </footer>
+
+  <script src="demo_data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
