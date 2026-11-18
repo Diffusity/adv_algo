@@ -104,6 +104,11 @@ scenarios, play/pause/step through a search, reveal the true obstacle map, and
 compare final metrics. The data are in `web/demo_data.js`; regenerate them with
 `python experiments/export_demo.py` after changing the algorithms or scenarios.
 
+For a smaller teaching example, open `web/dry-run.html` directly in a browser.
+It replays each search variant on the same 8 × 5 grid, with OPEN priorities and
+the distances affected by each repair. The page works offline. Run
+`python experiments/export_dry_run.py` to refresh its embedded traces.
+
 ## Report
 
 The IEEE conference-style manuscript is `report/main.pdf`, with sources in
